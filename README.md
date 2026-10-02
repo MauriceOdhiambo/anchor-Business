@@ -88,3 +88,5 @@ Before public launch, review the business phone numbers, email, address, office 
 - Keep `/admin` and `/api/admin` private.
 - Review Supabase Auth settings before launch.
 - Keep the Supabase project and Vercel credentials protected with appropriate account security.
+
+Anchor Business Insights Consulting — Production Website
