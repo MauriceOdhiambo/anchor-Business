@@ -13,31 +13,28 @@ create table if not exists public.contact_submissions (
 );
 
 alter table public.contact_submissions enable row level security;
+create index if not exists contact_submissions_created_at_idx on public.contact_submissions (created_at desc);
+create index if not exists contact_submissions_status_idx on public.contact_submissions (status);
 
--- No public SELECT/INSERT policy is intentionally created. Public enquiries are
--- inserted by the server route using the service-role key. Admin reads/updates
--- are also performed server-side after Supabase Auth + ADMIN_EMAILS checks.
-
-create index if not exists contact_submissions_created_at_idx
-  on public.contact_submissions (created_at desc);
-create index if not exists contact_submissions_status_idx
-  on public.contact_submissions (status);
-
--- Optional helper for future reporting.
 create or replace view public.contact_submission_daily as
 select date_trunc('day', created_at) as day, count(*)::int as submissions
 from public.contact_submissions
 group by 1
 order by 1 desc;
 
--- Dashboard-managed admin allow-list. Each email must also exist in Supabase Auth.
+-- Dashboard-managed administrators. Auth credentials are held by Supabase Auth;
+-- this table stores only access rights and the Auth user id, never passwords.
 create table if not exists public.admin_users (
   id uuid primary key default gen_random_uuid(),
+  auth_user_id uuid unique,
   email text not null unique,
+  role text not null default 'admin' check (role in ('admin','manager')),
   active boolean not null default true,
   created_at timestamptz not null default now()
 );
 
+alter table public.admin_users add column if not exists auth_user_id uuid;
+alter table public.admin_users add column if not exists role text not null default 'admin';
 alter table public.admin_users enable row level security;
-
 create index if not exists admin_users_email_idx on public.admin_users (lower(email));
+create index if not exists admin_users_auth_user_idx on public.admin_users (auth_user_id);
