@@ -1,4 +1,0 @@
-import Link from 'next/link';
-import { ArrowRight, Check } from '@/components/Icons';
-export const metadata={title:'Thank You'};
-export default function ThankYou(){return <main><section className="section"><div className="narrow" style={{textAlign:'center',padding:'70px 0'}}><span className="feature-icon" style={{margin:'0 auto 20px'}}><Check/></span><span className="eyebrow">Enquiry received</span><h1 style={{fontSize:'clamp(2.4rem,6vw,4rem)',lineHeight:1.05}}>Thank you for contacting Anchor.</h1><p style={{color:'var(--muted)',fontSize:'1.05rem'}}>Your message has been submitted. We’ll review it and get back to you using the contact details you provided.</p><div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginTop:25}}><Link className="button button-primary" href="/">Back to home <ArrowRight/></Link><Link className="button button-secondary" href="/services">Explore services</Link></div></div></section></main>}
