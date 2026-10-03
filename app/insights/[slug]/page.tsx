@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { insights, site } from '@/lib/site';
+import { ArrowRight } from '@/components/Icons';
+export function generateStaticParams(){return insights.map(i=>({slug:i.slug}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const a=insights.find(x=>x.slug===slug);if(!a)return{};return{title:a.title,description:a.excerpt}}
+export default async function InsightPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const a=insights.find(x=>x.slug===slug);if(!a)notFound();return <main><section className="page-hero"><div className="container article-header"><div className="breadcrumb"><Link href="/">Home</Link> / <Link href="/insights">Insights</Link> / {a.category}</div><span className="eyebrow">{a.category}</span><h1>{a.title}</h1><div className="article-meta-line">Published {a.date} · {site.shortName}</div></div></section><section className="section"><div className="narrow article-body">{a.body.map((p,i)=><p key={i}>{p}</p>)}<div className="notice"><strong>Note:</strong> This article is general business information, not legal, tax, accounting or financial advice. Confirm current regulatory requirements with the relevant Kenyan authority or a qualified professional.</div><div style={{marginTop:30}}><Link className="button button-primary" href="/contact">Discuss a business challenge <ArrowRight/></Link></div></div></section></main>}
