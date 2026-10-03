@@ -91,3 +91,8 @@ Before public launch, review the business phone numbers, email, address, office 
 
 ## Admin login fix
 The admin authentication now uses `createBrowserClient` from `@supabase/ssr` so the Supabase Auth session is stored in cookies readable by the Next.js server. The login page then performs a full navigation to `/admin` after successful authentication.
+
+
+## Combined production improvements
+
+See `docs/NEXT-STEP-SETUP.md` for the admin dashboard, multiple-admin access, email alerts and WhatsApp setup.

@@ -6,6 +6,8 @@ export const site = {
     'Practical business consulting in Eldoret, Kenya, supporting business start-ups, advisory, process improvement, credit management, bookkeeping, tax filing, compliance and internal controls.',
   url: process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   phone: ['0723 470 776', '0733 439 535'],
+  whatsapp: '0723 470 776',
+  whatsappUrl: 'https://wa.me/254723470776',
   email: 'anchor-insights@outlook.com',
   address: '1st Floor, Tilil House, Kenyatta Street, Eldoret, Kenya',
   city: 'Eldoret',

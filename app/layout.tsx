@@ -3,6 +3,7 @@ import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { site } from '@/lib/site';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -29,4 +30,4 @@ const jsonLd = {
   serviceType: 'Business consulting',
 };
 
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en-KE"><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/><Header/>{children}<Footer/></body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en-KE"><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/><Header/>{children}<WhatsAppButton/><Footer/></body></html>}

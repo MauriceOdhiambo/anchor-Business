@@ -29,3 +29,15 @@ select date_trunc('day', created_at) as day, count(*)::int as submissions
 from public.contact_submissions
 group by 1
 order by 1 desc;
+
+-- Dashboard-managed admin allow-list. Each email must also exist in Supabase Auth.
+create table if not exists public.admin_users (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+alter table public.admin_users enable row level security;
+
+create index if not exists admin_users_email_idx on public.admin_users (lower(email));
