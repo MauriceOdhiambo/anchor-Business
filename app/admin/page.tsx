@@ -28,12 +28,10 @@ export default async function AdminDashboard() {
   const owner = isOwner(user.email);
 
   return <AdminShell email={user.email || ''} role={role || 'admin'} owner={owner}>
-    <header className="admin-header">
-      <div><span className="admin-kicker">Overview</span><h1>Dashboard</h1><p>Business development insights and client enquiry performance.</p></div>
-    </header>
+    <header className="admin-header"><div><span className="admin-kicker">Overview</span><h1>Dashboard</h1></div></header>
 
     <section className="admin-insight-hero">
-      <div><span className="admin-kicker">Client pipeline</span><h2>Know what needs attention.</h2><p>Track every enquiry from first contact to completion without leaving the control centre.</p></div>
+      <div><span className="admin-kicker">Client pipeline</span><h2>Enquiry overview</h2></div>
       <div className="admin-hero-metric"><span>Total enquiries</span><strong>{total}</strong><small>Recorded enquiries</small></div>
     </section>
 

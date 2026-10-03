@@ -11,7 +11,7 @@ export default async function AccessControlPage() {
   if (!isOwner(user.email)) redirect('/admin');
   if (!db) return <main className="admin-shell"><div className="admin-error-card">Supabase server configuration is incomplete. Check the Vercel environment variables.</div></main>;
   return <AdminShell email={user.email || ''} role={role || 'owner'} owner>
-    <header className="admin-header"><div><span className="admin-kicker">Security & permissions</span><h1>Access control</h1><p>Create administrators, assign permissions, reset passwords and suspend access from one place.</p></div></header>
+    <header className="admin-header"><div><span className="admin-kicker">Security</span><h1>Access control</h1></div></header>
     <AdminAccess currentEmail={user.email || ''} canManage />
   </AdminShell>;
 }
