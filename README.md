@@ -96,3 +96,19 @@ The admin authentication now uses `createBrowserClient` from `@supabase/ssr` so 
 ## Combined production improvements
 
 See `docs/NEXT-STEP-SETUP.md` for the admin dashboard, multiple-admin access, email alerts and WhatsApp setup.
+
+
+## What was fixed in v2.3.0
+
+- Fixed a TypeScript deployment error caused by the password-reset state and `resetPassword` function having the same identifier.
+- Reworked the admin area into separate Dashboard, Inquiries and Access Control menu pages.
+- Kept the admin workspace dark and isolated from the public website navigation.
+- Updated the Next.js 16 Supabase Proxy to use the current SSR session-refresh pattern and support both the existing anon key variable and the newer publishable key variable.
+- Kept browser authentication on `createBrowserClient` so admin sessions use cookies.
+- Added owner-controlled creation, role assignment, suspension and password reset for dashboard-managed administrators.
+
+### Deployment
+
+Upload/replace the project files in GitHub and deploy the repository to Vercel. Do not upload `.env` or `.env.local`. Keep `SUPABASE_SERVICE_ROLE_KEY` and `RESEND_API_KEY` only in Vercel environment variables.
+
+Run `supabase/schema.sql` once in the Supabase SQL editor before using Access Control. This creates the `admin_users` access table and preserves existing `contact_submissions` data.

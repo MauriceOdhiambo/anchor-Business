@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 
 type Role = 'admin' | 'manager';
 type Admin = { id: string; email: string; active: boolean; role: 'owner' | Role; source: string; created_at?: string };
@@ -13,7 +13,7 @@ export function AdminAccess({ currentEmail, canManage = false }: { currentEmail:
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [resetFor, setResetFor] = useState<Admin | null>(null);
-  const [resetPassword, setResetPassword] = useState('');
+  const [resetPasswordValue, setResetPasswordValue] = useState('');
 
   async function load() {
     setLoading(true);
@@ -24,7 +24,7 @@ export function AdminAccess({ currentEmail, canManage = false }: { currentEmail:
   }
   useEffect(() => { load(); }, []);
 
-  async function addAdmin(e: React.FormEvent) {
+  async function addAdmin(e: FormEvent) {
     e.preventDefault(); setSaving(true); setMessage('');
     const res = await fetch('/api/admin/admins', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, role }) });
     const data = await res.json();
@@ -46,12 +46,12 @@ export function AdminAccess({ currentEmail, canManage = false }: { currentEmail:
     if (!res.ok) setMessage(data.error || 'Could not update role.'); else { setAdmins(v => v.map(x => x.id === admin.id ? { ...x, role: nextRole } : x)); setMessage('Administrator role updated.'); }
   }
 
-  async function resetPassword(e: React.FormEvent) {
+  async function resetPassword(e: FormEvent) {
     e.preventDefault(); if (!resetFor) return;
     setSaving(true); setMessage('');
-    const res = await fetch('/api/admin/admins', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: resetFor.id, action: 'reset-password', password: resetPassword }) });
+    const res = await fetch('/api/admin/admins', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: resetFor.id, action: 'reset-password', password: resetPasswordValue }) });
     const data = await res.json();
-    if (!res.ok) setMessage(data.error || 'Could not reset password.'); else { setMessage(`Password reset for ${resetFor.email}. Share the new password securely.`); setResetFor(null); setResetPassword(''); }
+    if (!res.ok) setMessage(data.error || 'Could not reset password.'); else { setMessage(`Password reset for ${resetFor.email}. Share the new password securely.`); setResetFor(null); setResetPasswordValue(''); }
     setSaving(false);
   }
 
@@ -74,6 +74,6 @@ export function AdminAccess({ currentEmail, canManage = false }: { currentEmail:
         </div>
       </div>)}
     </div>
-    {resetFor && <div className="modal-backdrop" onClick={() => setResetFor(null)}><form className="admin-modal admin-dark-modal" onSubmit={resetPassword} onClick={e => e.stopPropagation()}><div className="modal-head"><div><span className="admin-kicker">Security</span><h2>Reset password</h2><p>Set a new password for <strong>{resetFor.email}</strong>. The password is not stored in this dashboard.</p></div><button type="button" className="modal-close" onClick={() => setResetFor(null)}>×</button></div><label>New password<input type="password" required minLength={8} value={resetPassword} onChange={e => setResetPassword(e.target.value)} autoComplete="new-password" placeholder="At least 8 characters" /></label><div className="modal-actions"><button type="button" className="admin-secondary-button" onClick={() => setResetFor(null)}>Cancel</button><button className="admin-primary-button" disabled={saving}>{saving ? 'Resetting…' : 'Set new password'}</button></div></form></div>}
+    {resetFor && <div className="modal-backdrop" onClick={() => setResetFor(null)}><form className="admin-modal admin-dark-modal" onSubmit={resetPassword} onClick={e => e.stopPropagation()}><div className="modal-head"><div><span className="admin-kicker">Security</span><h2>Reset password</h2><p>Set a new password for <strong>{resetFor.email}</strong>. The password is not stored in this dashboard.</p></div><button type="button" className="modal-close" onClick={() => setResetFor(null)}>×</button></div><label>New password<input type="password" required minLength={8} value={resetPasswordValue} onChange={e => setResetPasswordValue(e.target.value)} autoComplete="new-password" placeholder="At least 8 characters" /></label><div className="modal-actions"><button type="button" className="admin-secondary-button" onClick={() => setResetFor(null)}>Cancel</button><button className="admin-primary-button" disabled={saving}>{saving ? 'Resetting…' : 'Set new password'}</button></div></form></div>}
   </section>;
 }
