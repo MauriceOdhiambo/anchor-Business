@@ -1,5 +1,0 @@
-import Link from 'next/link';
-import { ArrowUpRight } from '@/components/Icons';
-import { insights } from '@/lib/site';
-export const metadata={title:'Business Insights',description:'Practical business insights from Anchor Business Insights Consulting on processes, credit management, controls, start-ups and records.'};
-export default function Insights(){return <main><section className="page-hero"><div className="container"><div className="breadcrumb"><Link href="/">Home</Link> / Insights</div><span className="eyebrow">Business insights</span><h1>Useful ideas for better business decisions.</h1><p>Short, practical articles on processes, cash flow, controls, records and business management.</p></div></section><section className="section"><div className="container"><div className="article-grid">{insights.map(a=><article className="article-card" key={a.slug}><span className="article-meta">{a.category}</span><h3>{a.title}</h3><p>{a.excerpt}</p><span style={{fontSize:'.78rem',color:'var(--muted)'}}>{a.date}</span><Link className="text-link" href={`/insights/${a.slug}`}>Read article <ArrowUpRight/></Link></article>)}</div></div></section></main>}
